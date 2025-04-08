@@ -1,0 +1,164 @@
+---
+title: "AARUG SAS to R with AI April 10,  2025"
+format: html
+editor: visual
+---
+
+## Converting SAS Code to R Using Free AI
+
+-   [ChatGPT version 4.0](https://chatgpt.com)
+
+-   [ClaudeAI](https://claude.ai "https://claude.ai")
+
+-   [CodeConvert](https://app.codeconvert.ai/) ()
+
+## My Experience So Far:
+
+-   Has mainly been in SAS =\> Python/PySpark/Pandas
+
+-   Conversion by 'paragraph' (small block) is 90% correct.
+
+-   This means that converting a large block of code will result in code with multiple errors, and that you will have to go back to converting in short chunks.
+
+## First Conversion - Simple SAS Code:
+
+This sets up a data set, inputs the values, calculates a chi-squared value and print the results.
+
+**data chisq; input df; chirat = cinv(.995,df)/cinv(.005,df);**
+
+**datalines; 20 21 22 23 24 25 26 27 28 29 30 ;**
+
+**run;**
+
+**proc print data=chisq; var df chirat;**
+
+**run;**
+
++---------------+
+| Results       |
++===============+
+| Obs df chirat |
+|               |
+| 1 20 5.38037  |
+|               |
+| 2 21 5.15345  |
+|               |
+| 3 22 4.95164  |
+|               |
+| 4 23 4.77098  |
+|               |
+| 5 24 4.60828  |
+|               |
+| 6 25 4.46097  |
+|               |
+| 7 26 4.32696  |
+|               |
+| 8 27 4.20449  |
+|               |
+| 9 28 4.09213  |
+|               |
+| 10 29 3.98865 |
+|               |
+| 11 30 3.89302 |
++---------------+
+
+1.  ChatGPT:
+
+```{r ChatGPT_1}
+#| echo: true
+
+
+# Define the degrees of freedom
+df <- 20:30
+
+# Calculate the chi-square ratio
+chirat <- qchisq(0.995, df) / qchisq(0.005, df)
+
+# Combine into a data frame
+chisq <- data.frame(df, chirat)
+
+# View the result
+print(chisq)
+
+```
+
+2.  ClaudeAI:
+
+```{r ClaudAI_1}
+#| echo: true
+
+
+# Create a data frame with the df values
+df_values <- c(20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30)
+chisq <- data.frame(df = df_values)
+# Calculate the ratio of chi-square critical values
+# In SAS: cinv(.995,df)/cinv(.005,df)
+# In R: qchisq(.995,df)/qchisq(.005,df)
+chisq$chirat <- qchisq(0.995, chisq$df) / qchisq(0.005, chisq$df)
+# Display the result
+print(chisq)
+
+```
+
+3.  CodeConvert:
+
+```{r Code_Converter_1}
+#| echo: true
+
+# Load required library for statistical functions (qchisq is in base R's stats package)
+library(stats)
+
+# Create a data frame 'chisq' with the variable 'df'
+chisq <- data.frame(df = c(
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30
+))
+
+# Compute 'chirat' as the ratio of chi-square inverse quantiles
+chisq$chirat <- qchisq(0.995, chisq$df) / qchisq(0.005, chisq$df)
+
+# Print the data frame showing only the variables 'df' and 'chirat'
+print(chisq[, c("df", "chirat")])
+
+
+```
+
+### Observations:
+
+1.  Each AI came out with slightly different code.
+2.  All ran without error.
+3.  Each AI achieved the same result.
+4.  Each AI listed information about what they did (below is from ClaudeAI
+
+\>Here's the conversion of your SAS code to R:
+
+```         
+# Create a data frame with the df values<p>
+df_values <- c(20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30) 
+<p>chisq <- data.frame(df = df_values)  
+<p> # Calculate the ratio of chi-square critical values 
+<p># In SAS: cinv(.995,df)/cinv(.005,df) 
+<p># In R: qchisq(.995,df)/qchisq(.005,df) 
+<p>chisq$chirat <- qchisq(0.995, chisq$df) / qchisq(0.005, chisq$df)  
+<p># Display the result 
+<p>print(chisq)  
+```
+
+I've converted your SAS code to R. The key differences in the conversion:
+
+1.  In SAS, you use `cinv()` to get chi-square critical values, while in R the equivalent function is `qchisq()`
+
+2.  Data input in R is handled by creating vectors and data frames directly rather than using the `datalines` approach in SAS
+
+3.  The calculation logic remains the same: finding the ratio between the 99.5th and 0.5th percentiles of the chi-square distribution for each degree of freedom
+
+4.  When you run this R code, it will create a data frame with the same calculations as your original SAS code.
