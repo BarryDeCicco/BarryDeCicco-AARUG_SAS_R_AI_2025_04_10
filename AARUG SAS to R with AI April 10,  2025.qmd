@@ -1,5 +1,5 @@
 ---
-title: "AARUG SAS to R with AI April 10,  2025"
+title: "AARUG SAS to R with AI (April 10,  2025)"
 format: html
 editor: visual
 ---
