@@ -132,6 +132,28 @@ chisq$chirat <- qchisq(0.995, chisq$df) / qchisq(0.005, chisq$df)
 print(chisq[, c("df", "chirat")])
 
 
+
+```
+
+4.  Deekseek:
+
+
+```{r DeepSeek_1}
+#| echo: true
+
+
+# Create a data frame with degrees of freedom
+df <- c(20:30)
+
+# Calculate the chi-square ratio for each df
+chirat <- qchisq(0.995, df) / qchisq(0.005, df)
+
+# Combine into a data frame
+chisq <- data.frame(df, chirat)
+
+# Print the results
+print(chisq)
+
 ```
 
 ### Observations:
@@ -164,3 +186,34 @@ I've converted your SAS code to R. The key differences in the conversion:
 3.  The calculation logic remains the same: finding the ratio between the 99.5th and 0.5th percentiles of the chi-square distribution for each degree of freedom
 
 4.  When you run this R code, it will create a data frame with the same calculations as your original SAS code.
+
+
+## Second Conversion - Aggregation:
+
+This uses an array to calculate values for more than one variable:
+
+``` sas
+{sas SAS_Aggregate_1}
+#| eval: false
+
+
+* https://blogs.sas.com/content/iml/2014/12/01/max-and-min-rows-and-cols.html;
+
+
+data MinMaxRows;
+   set sashelp.Iris;
+   array x {*} _numeric_;    /* x[1] is 1st var,...,x[4] is 4th var */
+   min = min(of x[*]);       /* min value for this observation */
+   max = max(of x[*]);       /* max value for this observation */
+run;
+proc print data=MinMaxRows(obs=7);
+   var _numeric_;
+run;
+
+```
+
+![](images/clipboard-8744195.png)
+
+
+
+
