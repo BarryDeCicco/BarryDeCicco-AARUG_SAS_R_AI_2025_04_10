@@ -234,7 +234,7 @@ run;
 
 ```
 
-![](images/clipboard-8744195.png)
+![](images/clipboard-1423748803.png)
 
 1.  ChatGPT:
 
