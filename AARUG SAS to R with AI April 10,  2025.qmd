@@ -220,6 +220,16 @@ run;
 ```{r ChatGPT_2}
 #| echo: true
 
+# Copy the iris dataset
+MinMaxRows <- iris
+
+# Compute min and max across numeric columns for each row
+numeric_cols <- sapply(MinMaxRows, is.numeric)
+MinMaxRows$min <- apply(MinMaxRows[, numeric_cols], 1, min)
+MinMaxRows$max <- apply(MinMaxRows[, numeric_cols], 1, max)
+
+# Print the first 7 observations of only numeric columns (including min and max)
+print(MinMaxRows[1:7, c(which(numeric_cols), which(names(MinMaxRows) %in% c("min", "max")))])
 
 
 ```
