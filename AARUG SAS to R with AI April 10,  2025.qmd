@@ -10,7 +10,9 @@ editor: visual
 
 -   [ClaudeAI](https://claude.ai "https://claude.ai")
 
--   [CodeConvert](https://app.codeconvert.ai/) ()
+-   [CodeConvert](https://app.codeconvert.ai/)
+
+-   [DeepSeek](https://chat.deepseek.com/)
 
 ## My Experience So Far:
 
