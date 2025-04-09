@@ -215,5 +215,61 @@ run;
 ![](images/clipboard-8744195.png)
 
 
+1.  ChatGPT:
+
+```{r ChatGPT_2}
+#| echo: true
+
+
+
+```
+
+2.  ClaudeAI:
+
+```{r ClaudAI_2}
+#| echo: true
+
+
+
+
+```
+
+3.  CodeConvert:
+
+```{r Code_Converter_2}
+#| echo: true
+
+# Load required datasets package which contains the 'iris' dataset
+library(datasets)
+
+# Create data frame MinMaxRows from the iris dataset (equivalent to SAS: "set sashelp.Iris;")
+MinMaxRows <- iris
+
+# array x {*} _numeric_;    /* x[1] is 1st var,...,x[4] is 4th var */
+# In R, we identify the numeric columns from MinMaxRows. Here x corresponds to all numeric columns.
+# Compute the row-wise minimum of numeric variables.
+MinMaxRows$min <- apply(MinMaxRows[sapply(MinMaxRows, is.numeric)], 1, min)    # min value for this observation
+
+# Compute the row-wise maximum of numeric variables.
+MinMaxRows$max <- apply(MinMaxRows[sapply(MinMaxRows, is.numeric)], 1, max)    # max value for this observation
+
+# proc print data=MinMaxRows(obs=7);
+#    var _numeric_;
+# In R, we print the first 7 observations of numeric variables (including the newly added min and max)
+print(MinMaxRows[sapply(MinMaxRows, is.numeric)][1:7,])
+
+
+
+```
+
+4.  Deepseek:
+
+```{r DeepSeek_2}
+#| echo: true
+
+
+
+```
+
 
 
