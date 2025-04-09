@@ -137,7 +137,6 @@ print(chisq[, c("df", "chirat")])
 
 4.  Deekseek:
 
-
 ```{r DeepSeek_1}
 #| echo: true
 
@@ -187,10 +186,13 @@ I've converted your SAS code to R. The key differences in the conversion:
 
 4.  When you run this R code, it will create a data frame with the same calculations as your original SAS code.
 
-
 ## Second Conversion - Aggregation:
 
-This uses an array to calculate values for more than one variable:
+This uses an array to calculate values for more than one variable. NOTE: the SAS data set was different from the R data set;
+
+<p>
+
+I manually loaded the R version.
 
 ``` sas
 {sas SAS_Aggregate_1}
@@ -199,9 +201,28 @@ This uses an array to calculate values for more than one variable:
 
 * https://blogs.sas.com/content/iml/2014/12/01/max-and-min-rows-and-cols.html;
 
+data iris_II;
+    input SepalLength SepalWidth PetalLength PetalWidth Species $;
+    datalines;
+5.1 3.5 1.4 0.2 setosa
+4.9 3.0 1.4 0.2 setosa
+4.7 3.2 1.3 0.2 setosa
+4.6 3.1 1.5 0.2 setosa
+5.0 3.6 1.4 0.2 setosa
+5.4 3.9 1.7 0.4 setosa
+4.6 3.4 1.4 0.3 setosa
+5.0 3.4 1.5 0.2 setosa
+4.4 2.9 1.4 0.2 setosa
+4.9 3.1 1.5 0.1 setosa
+;
+run;
+
+proc print data=iris_II;
+run;
+
 
 data MinMaxRows;
-   set sashelp.Iris;
+   set iris_II;
    array x {*} _numeric_;    /* x[1] is 1st var,...,x[4] is 4th var */
    min = min(of x[*]);       /* min value for this observation */
    max = max(of x[*]);       /* max value for this observation */
@@ -210,10 +231,10 @@ proc print data=MinMaxRows(obs=7);
    var _numeric_;
 run;
 
+
 ```
 
 ![](images/clipboard-8744195.png)
-
 
 1.  ChatGPT:
 
@@ -296,11 +317,13 @@ print(MinMaxRows[sapply(MinMaxRows, is.numeric)][1:7,])
 
 4.  Deepseek (this gave me both base R and Tidyverse versions):
 
-In the first run, this failed due not loading the 'Purr' package;<p>
+In the first run, this failed due not loading the 'Purr' package;
+
+<p>
+
 the *pmap_dbl* function was not found.
 
 Therefore, I added it manually
-
 
 ```{r DeepSeek_2}
 #| echo: true
@@ -322,6 +345,3 @@ head(MinMaxRows, 7) %>%
   select(where(is.numeric))  # Select only numeric columns for display
 
 ```
-
-
-
