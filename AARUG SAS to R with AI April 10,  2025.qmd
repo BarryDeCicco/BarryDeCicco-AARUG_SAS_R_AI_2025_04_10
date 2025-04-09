@@ -229,7 +229,29 @@ run;
 ```{r ClaudAI_2}
 #| echo: true
 
+# Load necessary libraries
+library(dplyr)
 
+# Read in the iris dataset (which is built-in to R)
+# This is equivalent to SAS's sashelp.Iris
+iris_data <- iris
+
+# Create min and max columns for numeric variables
+# In R, we need to specify which columns to use
+# We'll exclude the Species column since it's categorical
+MinMaxRows <- iris_data %>%
+  rowwise() %>%
+  mutate(
+    min = min(c_across(where(is.numeric))),
+    max = max(c_across(where(is.numeric)))
+  ) %>%
+  ungroup()
+
+# Print the first 7 rows of numeric columns
+# Display all numeric columns including the new min and max
+MinMaxRows %>%
+  select(where(is.numeric)) %>%
+  head(7)
 
 
 ```
