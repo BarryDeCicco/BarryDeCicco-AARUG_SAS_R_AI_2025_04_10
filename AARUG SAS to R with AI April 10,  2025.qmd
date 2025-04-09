@@ -262,12 +262,25 @@ print(MinMaxRows[sapply(MinMaxRows, is.numeric)][1:7,])
 
 ```
 
-4.  Deepseek:
+4.  Deepseek (this gave me both base R and Tidyverse versions):
 
 ```{r DeepSeek_2}
 #| echo: true
 
+# Using dplyr for data manipulation
+library(dplyr)
 
+# Load the iris dataset (equivalent to sashelp.Iris in SAS)
+MinMaxRows <- iris %>%
+  mutate(
+    # Calculate min and max across numeric columns for each row
+    min = pmap_dbl(select(., where(is.numeric)), min),
+    max = pmap_dbl(select(., where(is.numeric)), max)
+  )
+
+# Print first 7 rows of all numeric columns (equivalent to PROC PRINT)
+head(MinMaxRows, 7) %>% 
+  select(where(is.numeric))  # Select only numeric columns for display
 
 ```
 
