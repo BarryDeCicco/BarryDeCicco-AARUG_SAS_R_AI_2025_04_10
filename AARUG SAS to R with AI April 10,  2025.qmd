@@ -354,7 +354,7 @@ This is something that SAS is good at, and you would see a lot in SAS code.
 
 Note: for some languages, such as PySpark (a distributed version of Python),
 
-carrying values across rows
+carrying values across rows is not the 'natural' way of doing things, since the data set is partitioned into chunks, for parallel manipulation.
 
 ```{sas retain_3}
 #| echo: true
