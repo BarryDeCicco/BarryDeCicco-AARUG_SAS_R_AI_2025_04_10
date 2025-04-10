@@ -230,8 +230,6 @@ run;
 proc print data=MinMaxRows(obs=7);
    var _numeric_;
 run;
-
-
 ```
 
 ![](images/clipboard-1423748803.png)
@@ -343,5 +341,158 @@ MinMaxRows <- iris %>%
 # Print first 7 rows of all numeric columns (equivalent to PROC PRINT)
 head(MinMaxRows, 7) %>% 
   select(where(is.numeric))  # Select only numeric columns for display
+
+```
+
+## Final Conversion - RETAIN Statement:
+
+This sets up a data set, inputs the values, then calculates new values,
+
+using the previous row's values. This **carries values across rows**.
+
+This is something that SAS is good at, and you would see a lot in SAS code.
+
+Note: for some languages, such as PySpark (a distributed version of Python),
+
+carrying values across rows
+
+```{sas retain_3}
+#| echo: true
+#| eval: false
+
+data abcd;
+input x y;
+cards;
+1 25
+1 28
+1 27
+2 23
+2 35
+2 34
+3 25
+3 29
+;
+run;
+
+
+data aaa;
+set abcd;
+retain z 0;
+z = z + y;
+run;
+
+proc print data = aaa;
+run;
+
+
+```
+
+![](images/clipboard-2780755875.png)
+
+1.  ChatGPT:
+
+```{r ChatGPT_3}
+#| echo: true
+
+# Create the data frame (equivalent to `data abcd; input x y;`)
+abcd <- data.frame(
+  x = c(1, 1, 1, 2, 2, 2, 3, 3),
+  y = c(25, 28, 27, 23, 35, 34, 25, 29)
+)
+
+# Create new data frame with cumulative sum of y (like `retain z; z = z + y;`)
+aaa <- abcd
+aaa$z <- cumsum(aaa$y)
+
+# Print the result (like `proc print`)
+print(aaa)
+
+
+
+```
+
+2.  ClaudeAI:
+
+```{r ClaudAI_3}
+#| echo: true
+
+# Create a data frame equivalent to 'data abcd'
+abcd <- data.frame(
+  x = c(1, 1, 1, 2, 2, 2, 3, 3),
+  y = c(25, 28, 27, 23, 35, 34, 25, 29)
+)
+
+# Create a new data frame 'aaa' with a cumulative sum of y
+aaa <- abcd
+aaa$z <- cumsum(aaa$y)
+
+# Print the resulting data frame (equivalent to proc print)
+print(aaa)
+
+
+```
+
+3.  CodeConvert:
+
+```{r Code_Converter_3}
+#| echo: true
+
+# Required dependencies and imports (base R functions are used; no additional packages are needed)
+
+# Creating the dataset 'abcd' equivalent to the SAS DATA step "data abcd;"
+abcd <- read.table(text = "1 25
+1 28
+1 27
+2 23
+2 35
+2 34
+3 25
+3 29", header = FALSE)
+names(abcd) <- c("x", "y")
+# End of dataset 'abcd' creation
+
+# Creating the dataset 'aaa' equivalent to the SAS DATA step "data aaa;"
+aaa <- abcd
+
+# Retain variable 'z' with an initial value of 0 (equivalent to "retain z 0;" in SAS)
+aaa$z <- 0
+
+# Iteratively update 'z' by adding 'y' to it for each row, mimicking "z = z + y;" in SAS
+for(i in 1:nrow(aaa)){
+  if(i == 1){
+    aaa$z[i] <- aaa$y[i]  # For the first row, z = 0 + y
+  } else {
+    aaa$z[i] <- aaa$z[i - 1] + aaa$y[i]  # For subsequent rows, accumulate the sum
+  }
+}
+# End of dataset 'aaa' creation
+
+# Printing the dataset 'aaa' equivalent to "proc print data=aaa;" in SAS
+print(aaa)
+
+
+
+
+
+
+```
+
+4.  Deekseek:
+
+```{r DeepSeek_3}
+#| echo: true
+
+# Create data frame
+abcd <- data.frame(
+  x = c(1, 1, 1, 2, 2, 2, 3, 3),
+  y = c(25, 28, 27, 23, 35, 34, 25, 29)
+)
+
+# Calculate cumulative sum by group
+aaa <- abcd
+aaa$z <- ave(aaa$y, aaa$x, FUN = cumsum)
+
+# Print result
+print(aaa)
 
 ```
